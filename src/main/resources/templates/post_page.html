@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Please Log In</title>
+</head>
+<body>
+<h1>Please Log In</h1>
+<form th:action="@{/create_post}" method="post" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Заголовок" />
+    <textarea name="text" placeholder="Текст"></textarea>
+    <input type="file" name="image" accept="image/*">
+    <button type="submit">publish</button>
+</form>
+<h1>Post List</h1>
+<ul>
+    <li th:each="post : ${posts}">
+        <h3 th:text="${post.title}"></h3>
+        <h3 th:text="${post.text}"></h3>
+        <img th:src="@{/posts/{id}(id=${post.id})}" width="200" height="150" alt="Image">
+    </li>
+</ul>
+</body>
+</html>
