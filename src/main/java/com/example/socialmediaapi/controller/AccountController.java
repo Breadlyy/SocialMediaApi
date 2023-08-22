@@ -2,6 +2,8 @@ package com.example.socialmediaapi.controller;
 
 import com.example.socialmediaapi.config.UserDetailsImpl;
 import com.example.socialmediaapi.entity.Account;
+import com.example.socialmediaapi.entity.Friendship;
+import com.example.socialmediaapi.entity.FriendshipStatus;
 import com.example.socialmediaapi.response.error.DuplicateUserException;
 import com.example.socialmediaapi.service.AccountService;
 import lombok.AllArgsConstructor;
@@ -10,12 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
@@ -56,12 +61,6 @@ public class AccountController {
     {
         return "post_page";
     }
-    @PostMapping("/savee")
-    public void savee(@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password)
-    {
-        Account account = new Account(username, email, password);
-        accountService.save(account);
-    }
 
     @GetMapping("/user")
     public ResponseEntity<String> user(@AuthenticationPrincipal UserDetails userDetails)
@@ -71,12 +70,7 @@ public class AccountController {
         String username = ((UserDetails) principal).getUsername();
         return ResponseEntity.ok().body(userDetails.getUsername());
     }
-    @GetMapping("/users")
-    public String users(Model model)
-    {
-        model.addAttribute("users", accountService.findAll());
-        return "all_users";
-    }
+
     @GetMapping("/")
     public String main()
     {

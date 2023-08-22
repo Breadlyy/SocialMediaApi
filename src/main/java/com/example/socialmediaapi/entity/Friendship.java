@@ -1,10 +1,15 @@
 package com.example.socialmediaapi.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
 public class Friendship {
 
     @Id
@@ -26,6 +31,7 @@ public class Friendship {
             CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "receiver_id")
     private Account receiver;
+
 
     @Enumerated(EnumType.STRING)
     private FriendshipStatus status;

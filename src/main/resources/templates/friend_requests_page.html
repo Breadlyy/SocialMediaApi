@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Friend Requests</title>
+</head>
+<body>
+<h1>Friend Requests</h1>
+<ul>
+    <li th:each="request : ${friendRequest}">
+        <p th:text="${request.username}"></p>
+        <form th:action="@{/accept-friend-request}" method="post">
+            <input type="hidden" name="senderId" th:value="${request.id}">
+            <button type="submit">Accept</button>
+        </form>
+        <form th:action="@{/reject-friend-request}" method="post">
+            <input type="hidden" name="senderId" th:value="${request.id}">
+            <button type="submit">Reject</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

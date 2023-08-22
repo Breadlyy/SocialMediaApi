@@ -30,11 +30,13 @@ public class PostController {
     AccountRepository accountRepository;
 
     @GetMapping("/post_page")
-    public String PostCreation(Model model)
+    public String PostCreation(Model model, @AuthenticationPrincipal UserDetails userDetails)
     {
         List<Post> posts = postRepository.findAll();
         model.addAttribute("post", new Post());
         model.addAttribute("posts", posts);
+        model.addAttribute("username", userDetails.getUsername());
+
         return "post_page";
     }
     @GetMapping("/posts/{id}")
@@ -69,5 +71,16 @@ public class PostController {
         }
         postRepository.save(post);
         return "redirect:/post_page";
+    }
+    @PostMapping("/update-post")
+    public ResponseEntity<String> updatePost(@RequestParam Long postId, @RequestParam String newContent,
+                                             @AuthenticationPrincipal UserDetails userDetails) {
+        Post post = postService.findById(postId);
+        if (post != null && post.getAccount().getUsername().equals(userDetails.getUsername())) {
+            postService.updatePost(postId, newContent);
+            return ResponseEntity.ok().body("Post updated successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("You are not allowed to update this post.");
+        }
     }
 }

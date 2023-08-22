@@ -6,7 +6,7 @@
 <body>
 <h1>Please Log In</h1>
 <form th:action="@{/create_post}" method="post" enctype="multipart/form-data">
-    <input type="text" name="title" placeholder="Заголовок" />
+    <input type="text" name="title" placeholder="Заголовок"/>
     <textarea name="text" placeholder="Текст"></textarea>
     <input type="file" name="image" accept="image/*">
     <button type="submit">publish</button>
@@ -17,7 +17,16 @@
         <h3 th:text="${post.title}"></h3>
         <h3 th:text="${post.text}"></h3>
         <img th:src="@{/posts/{id}(id=${post.id})}" width="200" height="150" alt="Image">
+
+        <div th:if="${username == post.account.username}">
+            <button class="edit-button" th:attr="data-postid=${post.id}">Edit</button>
+            <div class="edit-form" th:id="'edit-form-' + ${post.id}" style="display: none;">
+                <textarea class="edit-textarea" rows="4" cols="50"></textarea>
+                <button class="save-button" th:attr="data-postid=${post.id}">Save</button>
+            </div>
+        </div>
     </li>
 </ul>
+
 </body>
 </html>
