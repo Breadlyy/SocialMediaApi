@@ -1,0 +1,7 @@
+com.example.socialmediaapi
+com.example.socialmediaapi.config
+com.example.socialmediaapi.controller
+com.example.socialmediaapi.entity
+com.example.socialmediaapi.repo
+com.example.socialmediaapi.response.error
+com.example.socialmediaapi.service
