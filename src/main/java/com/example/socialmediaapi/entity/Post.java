@@ -4,6 +4,9 @@ import com.example.socialmediaapi.entity.Account;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The post entity
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -28,11 +31,8 @@ public class Post {
     @Column(length = 16777215)
     private byte[] image;
 
-    @ManyToOne(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL,
+    fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private Account account;
 }

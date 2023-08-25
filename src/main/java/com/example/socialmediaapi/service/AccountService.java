@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * AccountService methods being used by AccountController
+ */
 @Service
 public class    AccountService {
 
@@ -21,11 +24,22 @@ public class    AccountService {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Instantiates a new Account service.
+     *
+     * @param accountRepository the account repository
+     */
     @Autowired
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
+    /**
+     * save the user to the database
+     *
+     * @param account the account
+     * @return account account
+     */
     public Account save(Account account)
     {
         Account user = accountRepository.findByEmail(account.getEmail());
@@ -36,6 +50,13 @@ public class    AccountService {
 
     }
 
+    /**
+     * Login account.
+     *
+     * @param username the username
+     * @param password the password
+     * @return the account
+     */
     public Account login(String username, String password)
     {
         Account user = (Account) accountRepository.findByUsername(username).get();
@@ -50,6 +71,12 @@ public class    AccountService {
     }
 
 
+    /**
+     * Find by email account.
+     *
+     * @param email the email
+     * @return the account
+     */
     public Account findByEmail(String email)
     {
         Account result = accountRepository.findByEmail(email);
@@ -63,12 +90,25 @@ public class    AccountService {
         }
     }
 
+    /**
+     * User exists boolean.
+     *
+     * @param email the email
+     * @return the boolean
+     */
     public boolean userExists(String email)
     {
         Account user = accountRepository.findByEmail(email);
         if(user != null) return true;
         return false;
     }
+
+    /**
+     * find the user by username
+     *
+     * @param username the username
+     * @return account account
+     */
     public Account findByUsername(String username)
     {
 
@@ -79,17 +119,36 @@ public class    AccountService {
        }
        else throw new UserNotFoundException("User with username: " + username + " not found");
     }
+
+    /**
+     * find the user by id
+     *
+     * @param id the id
+     * @return account account
+     */
     public Account findById(Integer id)
     {
         Optional<Account> acc = accountRepository.findById(id);
         if(acc.isPresent()) return acc.get();
         else throw new UserNotFoundException("User with id + " + id + "not found");
     }
+
+    /**
+     * Find all list.
+     *
+     * @return list list
+     */
     public List<Account> findAll()
     {
         return accountRepository.findAll();
     }
 
+    /**
+     * unsubscribe the user
+     *
+     * @param account      the account
+     * @param subscription the subscription
+     */
     public void removeSubscription(Account account, Account subscription)
     {
         account.removeSubscription(subscription);
