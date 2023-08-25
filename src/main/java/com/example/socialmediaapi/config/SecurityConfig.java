@@ -19,17 +19,32 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * configuration class with SecurityFilterChain allow unauthorized users
+ * have access only to registration and login pages.
+ * Also set the user details
+ */
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * The User details service.
+     */
     UserDetailsServiceImpl userDetailsService;
 
     private BCryptPasswordEncoder encoder()
     {
         return new BCryptPasswordEncoder();
     }
+
+    /**
+     * method configures and returns a DaoAuthenticationProvider instance,
+     * setting its user details service and password encoder for authentication
+     *
+     * @return dao authentication provider
+     */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider()
     {
@@ -39,6 +54,15 @@ public class SecurityConfig {
         return auth;
     }
 
+    /**
+     * This method configures security rules for an HTTP request using Spring Security.
+     * It allows unauthenticated access to "/registration", requires authentication for all other requests,
+     * sets up a custom login page at "/login", and permits logout for all users.
+     *
+     * @param httpSecurity the http security
+     * @return security filter chain
+     * @throws Exception the exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests((request) -> request
@@ -48,37 +72,5 @@ public class SecurityConfig {
                 .logout((logout)->logout.permitAll());
         return httpSecurity.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService()
-//    {
-//        UserDetails admin = User.withUsername("root")
-//                .password("root")
-//                .roles("ADMIN")
-//                .build();
-//    }
-//
-//    @Bean
-//    public InMemoryUserDetailsManager user()
-//    {
-//        return new InMemoryUserDetailsManager(
-//                User.withUsername("root")
-//                        .password("{noop}root")
-//                        .authorities("read")
-//                        .build()
-//        );
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf(csrf -> csrf.disable())
-//                .authorizeRequests(auth -> auth.anyRequest().authenticated())
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-//                .sessionManagement(session -> session.sessionCreationPolicy(
-//                        SessionCreationPolicy.STATELESS
-//                )).httpBasic(Customizer.withDefaults());
-//
-//        return http.build();
-//    }
 
 }

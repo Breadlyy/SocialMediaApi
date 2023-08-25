@@ -15,12 +15,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * FriendController serves for ensure the relations between users
+ */
 @Controller
 @AllArgsConstructor
 public class FriendController {
 
+    /**
+     * The Account service.
+     */
     AccountService accountService;
+    /**
+     * The Friend service.
+     */
     FriendService friendService;
+
+    /**
+     * return the template with the list of all users for sending the friend request
+     *
+     * @param model       the model
+     * @param userDetails the user details
+     * @return string string
+     */
     @GetMapping("/users")
     public String users(Model model, @AuthenticationPrincipal UserDetails userDetails)
     {
@@ -37,6 +54,14 @@ public class FriendController {
         model.addAttribute("users", users);
         return "all_users";
     }
+
+    /**
+     * display the friend's list
+     *
+     * @param model       the model
+     * @param userDetails the user details
+     * @return string string
+     */
     @GetMapping("/friends")
     public String friends(Model model, @AuthenticationPrincipal UserDetails userDetails)
     {
@@ -45,13 +70,29 @@ public class FriendController {
         model.addAttribute("friends", account.getFriends());
         return "friends";
     }
+
+    /**
+     * display incoming friend request and add the sender as a subscriber to the receiver
+     *
+     * @param model       the model
+     * @param userDetails the user details
+     * @return string string
+     */
     @GetMapping("/friend-request")
     public String showFriendRequests(Model model, @AuthenticationPrincipal UserDetails userDetails)
     {
         Account account= accountService.findByUsername(userDetails.getUsername());
         model.addAttribute("friendRequest", account.getFriendRequestsReceived());
-        return "friend_requests_page";
+        return "friend/friend_requests_page";
     }
+
+    /**
+     * show user's subscribers
+     *
+     * @param model       the model
+     * @param userDetails the user details
+     * @return string string
+     */
     @GetMapping("/subscribes")
     public String subscribes(Model model, @AuthenticationPrincipal UserDetails userDetails)
     {
@@ -59,6 +100,14 @@ public class FriendController {
         model.addAttribute("subscribes", account.getSubscribers());
         return "friend/subscribes";
     }
+
+    /**
+     * show user's subscriptions
+     *
+     * @param model       the model
+     * @param userDetails the user details
+     * @return string string
+     */
     @GetMapping("/subscriptions")
     public String subscriptions(Model model, @AuthenticationPrincipal UserDetails userDetails)
     {
@@ -66,6 +115,14 @@ public class FriendController {
         model.addAttribute("subscriptions", account.getSubscriptions());
         return "friend/subscriptions";
     }
+
+    /**
+     * delete the subscription
+     *
+     * @param subId       the sub id
+     * @param userDetails the user details
+     * @return string string
+     */
     @PostMapping("/unsubscribe")
     public String unsubscribe(@RequestParam("subId") Integer subId,
                               @AuthenticationPrincipal UserDetails userDetails)
@@ -75,6 +132,14 @@ public class FriendController {
         accountService.removeSubscription(account, subscription);
         return "friend/subscribes";
     }
+
+    /**
+     * accept the received friend request
+     *
+     * @param userDetails the user details
+     * @param senderId    the sender id
+     * @return string string
+     */
     @PostMapping("/accept-friend-request")
     public String accept_friend_request(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestParam("senderId") Integer senderId)
@@ -85,6 +150,13 @@ public class FriendController {
         return "redirect:/friends";
     }
 
+    /**
+     * reject the received friend request
+     *
+     * @param userDetails the user details
+     * @param senderId    the sender id
+     * @return string string
+     */
     @PostMapping("/reject-friend-request")
     public String reject_friend_request(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestParam("senderId") Integer senderId)
@@ -94,6 +166,14 @@ public class FriendController {
         friendService.rejectFriendRequest(sender, receiver);
         return "redirect:/friends";
     }
+
+    /**
+     * add user to the friend list and the receiver become the sender's subscriber
+     *
+     * @param userDetails the user details
+     * @param username    the username
+     * @return string string
+     */
     @PostMapping("/add-friend")
     public String add_friend( @AuthenticationPrincipal UserDetails userDetails,
                               @RequestParam("username") String username)
@@ -112,6 +192,14 @@ public class FriendController {
 //                .build();
         return "redirect:/friends";
     }
+
+    /**
+     * delete the user from friend list and also abandon from subscription on friend
+     *
+     * @param userDetails the user details
+     * @param friendId    the friend id
+     * @return string string
+     */
     @PostMapping("/delete-friend")
     public String delete_friend(@AuthenticationPrincipal UserDetails userDetails,
                                 @RequestParam("friendId") Integer friendId)

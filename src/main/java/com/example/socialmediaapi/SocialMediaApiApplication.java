@@ -8,14 +8,27 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * The type Social media api application.
+ */
 @SpringBootApplication
-
 public class SocialMediaApiApplication {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(SocialMediaApiApplication.class, args);
     }
 
+    /**
+     * Run command line runner.
+     *
+     * @param accountService the account service
+     * @return the command line runner
+     */
     @Bean
     public CommandLineRunner run(AccountService accountService) {
         return runner->

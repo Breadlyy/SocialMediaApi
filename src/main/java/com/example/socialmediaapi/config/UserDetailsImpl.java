@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * UserDetailsImpl implementing the UserDetails interface
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
@@ -22,6 +25,12 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * creating the user details and sets the user's role(basically USER_ROLE)
+     *
+     * @param account the account
+     * @return user details
+     */
     public static UserDetailsImpl build(Account account)
     {
         List<GrantedAuthority> authorityList = List.of(new SimpleGrantedAuthority(account.getUserRole().name()));
