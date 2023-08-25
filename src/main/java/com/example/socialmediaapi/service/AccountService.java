@@ -77,7 +77,7 @@ public class    AccountService {
        {
            return acc.get();
        }
-       else throw new UserNotFoundException("User with username: " + username + "not found");
+       else throw new UserNotFoundException("User with username: " + username + " not found");
     }
     public Account findById(Integer id)
     {
@@ -88,5 +88,11 @@ public class    AccountService {
     public List<Account> findAll()
     {
         return accountRepository.findAll();
+    }
+
+    public void removeSubscription(Account account, Account subscription)
+    {
+        account.removeSubscription(subscription);
+        accountRepository.save(account);
     }
 }

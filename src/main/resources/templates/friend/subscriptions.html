@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Friend Requests</title>
+</head>
+<body>
+<h1>subscriptions</h1><!--подписки на кого-то -->
+<ul>
+    <li th:each="sub : ${subscriptions}">
+        <p th:text="${sub.username}"></p>
+        <form th:action="@{/unsubscribe}" method="post">
+            <input type="hidden" name="subId" th:value="${sub.id}">
+            <button type="submit">unsubscribe</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

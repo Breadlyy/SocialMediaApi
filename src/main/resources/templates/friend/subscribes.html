@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Friend Requests</title>
+</head>
+<body>
+<h1>Subscribers</h1><!--подписки на меня-->
+<ul>
+    <li th:each="sub : ${subscribes}">
+        <p th:text="${sub.username}"></p>
+    </li>
+</ul>
+</body>
+</html>

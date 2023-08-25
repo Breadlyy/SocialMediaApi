@@ -4,6 +4,7 @@
     <title>Please Log In</title>
 </head>
 <body>
+<link th:href="@{../static/styles.css}" rel="stylesheet" type="text/css">
 <h1>Please Log In</h1>
 <form th:action="@{/create_post}" method="post" enctype="multipart/form-data">
     <input type="text" name="title" placeholder="Заголовок"/>
@@ -20,13 +21,54 @@
 
         <div th:if="${username == post.account.username}">
             <button class="edit-button" th:attr="data-postid=${post.id}">Edit</button>
-            <div class="edit-form" th:id="'edit-form-' + ${post.id}" style="display: none;">
-                <textarea class="edit-textarea" rows="4" cols="50"></textarea>
-                <button class="save-button" th:attr="data-postid=${post.id}">Save</button>
-            </div>
+            <form th:action="@{/update-post}" method="post">
+                <div class="edit-form" th:id="'edit-form-' + ${post.id}" style="display: none;">
+                    <textarea name="text" class="edit-textarea" rows="4" cols="50"></textarea>
+                    <input name="post_id" th:value="${post.id}" hidden>
+                    <button class="save-button" type="submit" th:attr="data-postid=${post.id}">Save</button>
+                </div>
+            </form>
         </div>
     </li>
 </ul>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll(".edit-button");
+        const saveButtons = document.querySelectorAll(".save-button");
+        const editForms = document.querySelectorAll(".edit-form");
+        const editTextareas = document.querySelectorAll(".edit-textarea");
+
+        editButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const postId = button.getAttribute("data-postid");
+                const editForm = document.getElementById("edit-form-" + postId);
+                const editTextarea = editForm.querySelector(".edit-textarea");
+                const isVisible = editForm.style.display === "block";
+
+                editForms.forEach(form => form.style.display = "none");
+                editTextareas.forEach(area => area.value = "");
+
+                if (!isVisible) {
+                    editForm.style.display = "block";
+                    editTextarea.value = button.parentElement.querySelector("h3").textContent;
+                }
+            });
+        });
+
+        saveButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const postId = button.getAttribute("data-postid");
+                const editForm = document.getElementById("edit-form-" + postId);
+                const editTextarea = editForm.querySelector(".edit-textarea");
+                const newContent = editTextarea.value;
+
+                // Выполните AJAX-запрос на обновление поста с помощью нового содержимого
+                // и скройте форму редактирования после успешного обновления
+            });
+        });
+    });
+</script>
+
 
 </body>
 </html>

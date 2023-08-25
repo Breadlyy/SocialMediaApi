@@ -2,7 +2,6 @@ package com.example.socialmediaapi.controller;
 
 import com.example.socialmediaapi.config.UserDetailsImpl;
 import com.example.socialmediaapi.entity.Account;
-import com.example.socialmediaapi.entity.Friendship;
 import com.example.socialmediaapi.entity.FriendshipStatus;
 import com.example.socialmediaapi.response.error.DuplicateUserException;
 import com.example.socialmediaapi.service.AccountService;

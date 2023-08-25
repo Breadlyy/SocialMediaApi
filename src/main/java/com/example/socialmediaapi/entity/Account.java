@@ -38,13 +38,21 @@ public class Account {
             cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Post> posts;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "friendship",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     public List<Account> friends = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "friends")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "subscriptions",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_id"))
+    private List<Account> subscriptions = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "subscribers",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_id"))
     private List<Account> subscribers = new ArrayList<>();
 
     @ManyToMany
@@ -87,18 +95,14 @@ public class Account {
     {
         this.subscribers.remove(account);
     }
-//    @OneToMany(mappedBy = "sender",
-//            cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-//    private List<Friendship> sentFriendships;
-
-//    @OneToMany(mappedBy = "receiver",
-//            cascade = {
-//            CascadeType.DETACH,
-//            CascadeType.MERGE,
-//            CascadeType.PERSIST,
-//            CascadeType.REFRESH}, fetch = FetchType.EAGER )
-//    private List<Friendship> receivedFriendships;
-
+    public void addSubscription(Account account)
+    {
+        this.subscriptions.add(account);
+    }
+    public void removeSubscription(Account account)
+    {
+        this.subscriptions.remove(account);
+    }
     public Account(String username, String email, String password) {
         this.username = username;
         this.email = email;

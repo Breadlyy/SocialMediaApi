@@ -8,7 +8,11 @@
 <h1>Image List</h1>
     <li th:each="friend : ${friends}">
         <h3 th:text="${friend.username}"></h3>
-    </li>
 
+    <form th:action="@{/delete-friend}" method="post">
+        <input type="hidden" name="friendId" th:value="${friend.id}">
+        <button type="submit">Delete</button>
+    </form>
+    </li>
 </body>
 </html>
