@@ -12,7 +12,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -121,12 +124,16 @@ public class PostController {
      */
     @PostMapping("/update-post")
     public String updatePost(@RequestParam("post_id") Long postId, @RequestParam("text") String newText,
+                             @RequestParam("title") String title,
                              @AuthenticationPrincipal UserDetails userDetails) {
         Post post = postService.findById(postId);
+        String newTitle;
+        if (title != null) newTitle = title;
+        else newTitle = post.getTitle();
         // Устанавливаем код состояния 302 (Found) для перенаправления
 
         if (post != null && post.getAccount().getUsername().equals(userDetails.getUsername())) {
-            postService.updatePost(postId, newText);
+            postService.updatePost(postId, newText, newTitle);
         }
         return "redirect:/post_page";
     }

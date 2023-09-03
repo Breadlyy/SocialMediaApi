@@ -42,10 +42,9 @@ public class PostService {
      * @param id the id
      * @return post post
      */
-    public Post findById(Long id)
-    {
+    public Post findById(Long id) {
         Optional<Post> postOptional = postRepository.findById(id);
-        if(postOptional.isPresent())
+        if (postOptional.isPresent())
             return postOptional.get();
         else throw new PostNotFoundException("post with id " + id + "not found");
     }
@@ -53,13 +52,15 @@ public class PostService {
     /**
      * update the post's text
      *
-     * @param postId     the post id
-     * @param newContent the new content
+     * @param postId the post id
+     * @param title  the new title
+     * @param text   the new text
      */
-    public void updatePost(Long postId, String newContent) {
+    public void updatePost(Long postId, String title, String text) {
         Post post = postRepository.findById(postId).orElse(null);
         if (post != null) {
-            post.setText(newContent);
+            if (title != null) post.setTitle(title);
+            if (text != null) post.setText(text);
             postRepository.save(post);
         }
     }

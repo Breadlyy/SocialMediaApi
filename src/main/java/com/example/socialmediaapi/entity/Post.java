@@ -1,6 +1,5 @@
 package com.example.socialmediaapi.entity;
 
-import com.example.socialmediaapi.entity.Account;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @ToString
 @Entity
 @Table(name = "post")

@@ -5,15 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User's entity. The crucial params are id, username and password
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -76,6 +75,7 @@ public class Account {
      * @param user the user
      */
     public void sendFriendRequest(Account user) {
+        if (friendRequestsReceived == null) friendRequestsReceived = new ArrayList<>();
         friendRequestsSent.add(user);
         user.getFriendRequestsReceived().add(this);
     }
@@ -86,6 +86,7 @@ public class Account {
      * @param user the user
      */
     public void acceptFriendRequest(Account user) {
+        if (friendRequestsReceived == null) friendRequestsReceived = new ArrayList<>();
         if (friendRequestsReceived.contains(user)) {
             friendRequestsReceived.remove(user);
             user.getFriendRequestsSent().remove(this);
@@ -121,6 +122,7 @@ public class Account {
      */
     public void addSubscriber(Account account)
     {
+        if (subscribers == null) subscribers = new ArrayList<>();
         this.subscribers.add(account);
     }
 
@@ -141,6 +143,7 @@ public class Account {
      */
     public void addSubscription(Account account)
     {
+        if (subscriptions == null) subscriptions = new ArrayList<>();
         this.subscriptions.add(account);
     }
 

@@ -23,6 +23,7 @@
             <button class="edit-button" th:attr="data-postid=${post.id}">Edit</button>
             <form th:action="@{/update-post}" method="post">
                 <div class="edit-form" th:id="'edit-form-' + ${post.id}" style="display: none;">
+                    <input type="text" name="title" placeholder="Заголовок"/>
                     <textarea name="text" class="edit-textarea" rows="4" cols="50"></textarea>
                     <input name="post_id" th:value="${post.id}" hidden>
                     <button class="save-button" type="submit" th:attr="data-postid=${post.id}">Save</button>

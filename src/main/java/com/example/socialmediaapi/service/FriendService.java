@@ -2,7 +2,6 @@ package com.example.socialmediaapi.service;
 
 import com.example.socialmediaapi.entity.Account;
 import com.example.socialmediaapi.repo.AccountRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +45,6 @@ public class FriendService {
             sender.sendFriendRequest(receiver);
             accountRepository.save(sender);
         }
-//        if (!receiver.getFriendRequestsReceived().contains(sender)) {
-//            // Проверка, что заявка еще не отправлена
-//            sender.addSubscriber(receiver);
-//            receiver.getFriendRequestsReceived().add(sender);
-//
-//        }
     }
 
     /**
