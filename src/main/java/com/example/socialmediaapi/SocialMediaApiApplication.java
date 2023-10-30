@@ -1,12 +1,10 @@
 package com.example.socialmediaapi;
 
-import com.example.socialmediaapi.entity.Account;
 import com.example.socialmediaapi.service.AccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * The type Social media api application.

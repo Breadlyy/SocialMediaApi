@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,10 +64,11 @@ public class FriendController {
      * @return string string
      */
     @GetMapping("/friends")
-    public String friends(Model model, @AuthenticationPrincipal UserDetails userDetails)
-    {
+    public String friends(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Account account = accountService.findByUsername(userDetails.getUsername());
-
+        if (account.getAvatar() != null) {
+            model.addAttribute("avatar", Base64.getEncoder().encodeToString(account.getAvatar()));
+        }
         model.addAttribute("friends", account.getFriends());
         return "friends";
     }

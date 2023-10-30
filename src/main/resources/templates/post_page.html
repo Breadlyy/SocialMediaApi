@@ -1,19 +1,127 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<style>
+    /* Style for the Friends button */
+    .friends-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .friends-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Styles for the post creation form */
+    .post-creation-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 40px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .post-creation-container input[type="text"],
+    .post-creation-container textarea,
+    .post-creation-container input[type="file"] {
+        width: 95%;
+        padding: 10px;
+        margin-right: 20px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .post-creation-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    /* Styles for the post list */
+    .post-list-container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .post-list-container h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .post-list-container ul {
+        list-style: none;
+        text-align: center;
+        padding: 0;
+    }
+
+    .post-list-container li {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    /* Styles for the edit button and form */
+    .edit-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .edit-form {
+        display: none;
+        margin-top: 10px;
+    }
+
+    .edit-textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .save-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+</style>
 <head>
-    <title>Please Log In</title>
+
+    <a class="friends-button" th:href="@{/profile}">Profile</a>
+    <a class="friends-button" th:href="@{/users}">All users</a>
+    <a class="friends-button" th:href="@{/friends}">Friends</a>
+    <a class="friends-button" th:href="@{/subscribes}">Subscribes</a>
+    <a class="friends-button" th:href="@{/subscriptions}">Subscriptions</a>
+
 </head>
 <body>
-<link th:href="@{../static/styles.css}" rel="stylesheet" type="text/css">
-<h1>Please Log In</h1>
-<form th:action="@{/create_post}" method="post" enctype="multipart/form-data">
+<form class="post-creation-container" th:action="@{/create_post}" method="post" enctype="multipart/form-data">
     <input type="text" name="title" placeholder="Заголовок"/>
     <textarea name="text" placeholder="Текст"></textarea>
     <input type="file" name="image" accept="image/*">
     <button type="submit">publish</button>
 </form>
-<h1>Post List</h1>
-<ul>
+
+<ul class="post-list-container">
     <li th:each="post : ${posts}">
         <h3 th:text="${post.title}"></h3>
         <h3 th:text="${post.text}"></h3>

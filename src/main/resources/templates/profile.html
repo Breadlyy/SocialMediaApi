@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<style>
+    /* Styles for the user profile */
+    .profile-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        text-align: center;
+    }
+
+    #username {
+        display: block;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .profile-info {
+        text-align: center;
+    }
+
+    .avatar-container {
+        margin-top: 20px;
+    }
+
+    .avatar {
+        max-width: 200px;
+        max-height: 200px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        transition: filter 0.3s ease-in-out;
+    }
+
+    .avatar:hover {
+        filter: brightness(70%); /* Затемнение при наведении */
+    }
+
+    .avatar-upload {
+        display: none;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .friends-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .friends-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<head>
+    <a class="friends-button" th:href="@{/post_page}">News</a>
+    <a class="friends-button" th:href="@{/users}">All users</a>
+    <a class="friends-button" th:href="@{/friends}">Friends</a>
+    <a class="friends-button" th:href="@{/subscribes}">Subscribes</a>
+    <a class="friends-button" th:href="@{/subscriptions}">Subscriptions</a>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<div class="profile-container">
+    <span id="username" th:text="${account.username}"></span>
+    <div class="profile-info">
+
+
+        <form th:action="@{/change-avatar}" method="post" enctype="multipart/form-data">
+
+            <div th:if="${avatar}">
+                <img class="avatar" th:src="'data:image/png;base64,' + ${avatar}" alt="User Avatar"
+                     onclick="changeAvatar()" width="150" height="150">
+            </div>
+            <div th:else>
+                <img class="avatar" src="default.png" alt="User Avatar"
+                     onclick="changeAvatar()" width="150" height="150">
+            </div>
+        </form>
+
+        <!-- Button for removing avatar -->
+        <form th:action="@{/remove-avatar}" method="post">
+            <button type="submit">Remove Avatar</button>
+        </form>
+    </div>
+</div>
+<div class="upload-avatar">
+    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="displayNewAvatar()">
+    <label for="avatarInput" class="button"></label>
+</div>
+<script src="script.js"></script>
+</body>
+<script>
+    function uploadAvatar() {
+        document.getElementById("avatar-upload").click();
+    }
+
+    document.getElementById("avatar-upload").addEventListener("change", function () {
+        const avatar = document.getElementById("avatar-upload").files[0];
+        if (avatar) {
+            const avatarElement = document.getElementById("avatar");
+            avatarElement.src = URL.createObjectURL(avatar);
+            avatarElement.style.display = "block";
+        }
+    });
+
+    function deleteAvatar() {
+        const avatarElement = document.getElementById("avatar");
+        avatarElement.src = ""; // Clear the avatar image
+        avatarElement.style.display = "none";
+    }
+
+    function changeAvatar() {
+        document.getElementById('avatarInput').click();
+    }
+
+    function displayNewAvatar() {
+        const avatarInput = document.getElementById('avatarInput');
+        const avatar = document.getElementById('avatar');
+        const file = avatarInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                avatar.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+</html>

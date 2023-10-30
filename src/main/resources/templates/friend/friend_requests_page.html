@@ -1,7 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    /* Style for the Friends button */
+    .friends-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .friends-button:hover {
+        background-color: #0056b3;
+    }
+
+</style>
 <head>
     <meta charset="UTF-8">
+    <a class="friends-button" th:href="@{/profile}">Profile</a>
+    <a class="friends-button" th:href="@{/users}">All users</a>
+    <a class="friends-button" th:href="@{/friends}">Friends</a>
+    <a class="friends-button" th:href="@{/subscribes}">Subscribes</a>
+    <a class="friends-button" th:href="@{/subscriptions}">Subscriptions</a>
     <title>Friend Requests</title>
 </head>
 <body>

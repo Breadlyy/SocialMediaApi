@@ -1,23 +1,94 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Please Log In</title>
+    <style>
+        /* Стилизация основного контейнера формы */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            max-width: 500px;
+            width: 400px;
+            text-align: center;
+            padding: 30px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        /* Стилизация заголовка формы */
+        .login-title {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Стилизация полей ввода */
+        .login-input {
+            width: 93%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* Стилизация кнопки "Войти" */
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Стилизация ссылки "Забыли пароль?" */
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        /* Стилизация ссылки "Регистрация" */
+        .register-link {
+            text-align: center;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        /* При наведении курсора на кнопку "Войти" */
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+
 </head>
 <body>
-<h1>Please Log In</h1>
 <div th:if="${param.error}">
     Invalid email and password.</div>
 <div th:if="${param.logout}">
     You have been logged out.</div>
-<form th:action="@{/login}" method="post" th:object="${account}">
-    <div>
-        <input  th:field="*{username}" type="username" name="username" placeholder="Username"/>
-    </div>
-    <div>
-        <input th:field="*{password}" type="password" name="password" placeholder="Password"/>
-    </div>
-    <input type="submit" value="Log in" />
-</form>
-<a th:href="@{registration}">Registration</a>
+<div class="login-container">
+    <h2 class="login-title">Log in</h2>
+
+    <form id="login" th:action="@{/login}" method="post" th:object="${account}">
+        <input class="login-input" th:field="*{username}" type="username" name="username" placeholder="Username"/>
+
+        <input class="login-input" th:field="*{password}" type="password" name="password" placeholder="Password"/>
+        <a class="register-link" th:href="@{registration}">registration</a>
+        <input class="login-button" type="submit" value="sign in"/>
+    </form>
+
+</div>
+
 </body>
 </html>

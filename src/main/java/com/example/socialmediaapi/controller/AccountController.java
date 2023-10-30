@@ -10,7 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 
 /**
  * controller for registration and login
@@ -85,8 +93,36 @@ public class AccountController {
      * @return string string
      */
     @GetMapping("/")
-    public String main()
-    {
-        return"redirect:/post_page";
+    public String main() {
+        return "redirect:/post_page";
+    }
+
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal UserDetails userDetails,
+                          Model model) {
+        Account account = accountService.findByUsername(userDetails.getUsername());
+        if (account.getAvatar() != null) {
+            model.addAttribute("avatar", Base64.getEncoder().encodeToString(account.getAvatar()));
+        }
+        model.addAttribute("account", account);
+        return "profile";
+    }
+
+    @PostMapping("/change-avatar")
+    public String changeAvatar(@RequestParam("newAvatar") MultipartFile newAvatar,
+                               @AuthenticationPrincipal UserDetails userDetails) throws IOException {
+        Account account = accountService.findByUsername(userDetails.getUsername());
+        account.setAvatar(newAvatar.getBytes());
+        ArrayList<Integer> qwe = new ArrayList<>();
+        accountService.update(account);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/remove-avatar")
+    public String removeAvatar(@AuthenticationPrincipal UserDetails userDetails) throws IOException {
+        Account account = accountService.findByUsername(userDetails.getUsername());
+        account.setAvatar(null);
+        accountService.update(account);
+        return "redirect:/profile";
     }
 }

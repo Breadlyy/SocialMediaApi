@@ -40,14 +40,21 @@ public class    AccountService {
      * @param account the account
      * @return account account
      */
-    public Account save(Account account)
-    {
+    public Account save(Account account) {
         Account user = accountRepository.findByEmail(account.getEmail());
         account.setPassword(encoder().encode(account.getPassword()));
         account.setUserRole(UserRole.USER_ROLE);
-        if(user != null) throw new UserAlreadyExist("User with email: " + account.getEmail() + " already exist" );
+        if (user != null) throw new UserAlreadyExist("User with email: " + account.getEmail() + " already exist");
         return accountRepository.save(account);
 
+
+    }
+
+    public void update(Account account) {
+        Optional user = accountRepository.findByUsername(account.getUsername());
+        if (user == null)
+            throw new UserNotFoundException("User with username: {} doesn't exist" + account.getUsername());
+        accountRepository.save((Account) user.get());
     }
 
     /**
@@ -57,8 +64,7 @@ public class    AccountService {
      * @param password the password
      * @return the account
      */
-    public Account login(String username, String password)
-    {
+    public Account login(String username, String password) {
         Account user = (Account) accountRepository.findByUsername(username).get();
         //Account user = accountRepository.findByEmail(username);
         System.out.println(user);

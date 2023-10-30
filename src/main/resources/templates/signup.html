@@ -1,27 +1,97 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<style>
+    /* Styles for the registration page */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .registration-container {
+        max-width: 500px;
+        width: 400px;
+        text-align: center;
+        padding: 25px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .registration-title {
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .registration-input {
+        width: 97%;
+        padding: 7px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .registration-button {
+        width: 102%;
+        padding: 10px;
+        background-color: #007bff;
+
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .registration-button:hover {
+        background-color: #0056b3;
+    }
+
+</style>
 <head>
     <title>Please Log In</title>
 </head>
 <body>
-<h1>Please Sign up</h1>
+
 <div th:if="${param.error}">
     Invalid username and password.</div>
 <div th:if="${param.logout}">
     You have been logged out.</div>
-<form th:action="@{/registration}" method="post" th:object="${account}">
-    <div>
-        <input th:field="*{username}" type="text" name="username" placeholder="Username"/>
-    </div>
-    <div>
-        <input th:field="*{email}" type="email" name="email" placeholder="Password"/>
-    </div>
-    <div>
-        <input th:field="*{password}" type="password" name="password" placeholder="Password"/>
-    </div>
-    <input type="submit" value="sign up" />
-</form>
+<div class="registration-container">
+    <form th:action="@{/registration}" method="post" th:object="${account}">
+        <span class="registration-title">Registration</span><br><br>
+        <div>
+            <input class="registration-input " th:field="*{username}" type="text" name="username"
+                   placeholder="Username"/>
+        </div>
+        <div>
+            <input class="registration-input " th:field="*{email}" type="email" name="email" placeholder="Email"/>
+        </div>
+        <div>
+            <input class="registration-input " th:field="*{password}" type="password" name="password"
+                   placeholder="Password"/>
+        </div>
+        <a class="register-link" th:href="@{login}">Log in</a>
+        <input class="registration-button" type="submit" value="sign up"/>
+    </form>
 
-<a th:href="@{login}">Log in</a>
+</div>
+
 </body>
 </html>

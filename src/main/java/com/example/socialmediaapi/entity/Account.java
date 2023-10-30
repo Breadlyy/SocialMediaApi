@@ -33,6 +33,9 @@ public class Account {
 
     @Column(name = "password")
     private String password;
+    @Lob
+    @Column(name = "avatar", length = 16777215)
+    private byte[] avatar;
 
     private UserRole userRole = UserRole.USER_ROLE;
 

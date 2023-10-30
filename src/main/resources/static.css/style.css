@@ -1,0 +1,57 @@
+/* Стилизация основного контейнера формы */
+.login-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Стилизация заголовка формы */
+.login-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Стилизация полей ввода */
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Стилизация кнопки "Войти" */
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Стилизация ссылки "Забыли пароль?" */
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+/* Стилизация ссылки "Регистрация" */
+.register-link {
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+/* При наведении курсора на кнопку "Войти" */
+.login-button:hover {
+    background-color: #0056b3;
+}
