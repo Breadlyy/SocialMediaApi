@@ -94,21 +94,18 @@
                 <img class="avatar" th:src="'data:image/png;base64,' + ${avatar}" alt="User Avatar"
                      onclick="changeAvatar()" width="150" height="150">
             </div>
-            <div th:else>
-                <img class="avatar" src="default.png" alt="User Avatar"
-                     onclick="changeAvatar()" width="150" height="150">
-            </div>
+            <!--            <div th:if="${!avatar}">-->
+            <!--                <img class="avatar" th:src="@{../static/default.png}" alt="User Avatar"-->
+            <!--                     onclick="changeAvatar()" width="150" height="150">-->
+            <!--            </div>-->
         </form>
 
-        <!-- Button for removing avatar -->
-        <form th:action="@{/remove-avatar}" method="post">
-            <button type="submit">Remove Avatar</button>
+        <form id="avatarForm" th:action="@{change-avatar}" method="post" enctype="multipart/form-data">
+            <input id="avatarInput" type="file" name="newAvatar" accept="image/*"
+                   onchange="submitForm()" hidden="hidden">
         </form>
+        <!-- Button for removing avatar -->
     </div>
-</div>
-<div class="upload-avatar">
-    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="displayNewAvatar()">
-    <label for="avatarInput" class="button"></label>
 </div>
 <script src="script.js"></script>
 </body>
@@ -126,6 +123,10 @@
         }
     });
 
+    function submitForm() {
+        document.getElementById("avatarForm").submit();
+    }
+
     function deleteAvatar() {
         const avatarElement = document.getElementById("avatar");
         avatarElement.src = ""; // Clear the avatar image
@@ -134,6 +135,7 @@
 
     function changeAvatar() {
         document.getElementById('avatarInput').click();
+        uploadAvatar();
     }
 
     function displayNewAvatar() {
